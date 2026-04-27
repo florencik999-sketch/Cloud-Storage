@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>☁️ Cloud Storage</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <h2>☁️ Cloud Storage</h2>
+
+    <!-- 🔐 LOGIN -->
+    <div id="loginBox">
+      <h2>Welcome Back</h2>
+      <input type="text" id="username" placeholder="Enter your username" />
+      <input type="password" id="password" placeholder="Enter your password" />
+      <button onclick="login()">Sign In</button>
+    </div>
+
+    <!-- 📁 MAIN APP -->
+    <div id="app" class="hidden">
+      <div class="controls">
+        <input type="text" id="folderName" placeholder="New folder name" />
+        <button onclick="createFolder()">📁 Create Folder</button>
+
+        <input type="file" id="fileInput" multiple accept="image/*,video/*" />
+        <button onclick="upload()">📤 Upload Files</button>
+      </div>
+
+      <!-- 📊 PROGRESS -->
+      <div class="mb-20">
+        <progress id="progressBar" value="0" max="100"></progress>
+        <span id="progressText">Ready to upload</span>
+      </div>
+
+      <h3 id="path">📂 /</h3>
+
+      <div id="list">
+        <!-- Files and folders will appear here -->
+      </div>
+
+      <div class="preview-container">
+        <h3>👁️ File Preview</h3>
+        <img id="preview" alt="Image preview" />
+        <video id="videoPreview" controls>
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
+
+    <script src="app.js"></script>
+  </body>
+</html>

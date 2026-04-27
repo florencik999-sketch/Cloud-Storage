@@ -1,0 +1,15 @@
+{
+  "name": "cloud-storage-frontend",
+  "version": "1.0.0",
+  "description": "Cloud Storage Frontend",
+  "main": "index.html",
+  "scripts": {
+    "dev": "serve .",
+    "build": "echo 'No build step required'",
+    "start": "serve ."
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "serve": "^14.2.1"
+  }
+}

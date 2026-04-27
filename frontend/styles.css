@@ -1,0 +1,392 @@
+/* =========================
+   🌟 MODERN CLOUD STORAGE CSS
+========================= */
+
+:root {
+  --primary-color: #4f46e5;
+  --primary-dark: #3730a3;
+  --secondary-color: #f8fafc;
+  --accent-color: #06b6d4;
+  --text-color: #1f2937;
+  --text-light: #6b7280;
+  --border-color: #e5e7eb;
+  --success-color: #10b981;
+  --error-color: #ef4444;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+/* =========================
+   🔐 LOGIN STYLES
+========================= */
+
+#loginBox {
+  max-width: 400px;
+  margin: 100px auto;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#loginBox h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: var(--primary-color);
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+#loginBox input {
+  width: 100%;
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+#loginBox input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+#loginBox button {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow);
+}
+
+#loginBox button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+#loginBox button:active {
+  transform: translateY(0);
+}
+
+/* =========================
+   📱 MAIN APP STYLES
+========================= */
+
+#app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  margin-top: 50px;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+h2 {
+  text-align: center;
+  color: var(--primary-color);
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 40px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h3#path {
+  background: var(--secondary-color);
+  padding: 15px 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+/* =========================
+   🎛️ CONTROLS
+========================= */
+
+.controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 30px;
+  align-items: end;
+}
+
+.controls input[type="text"] {
+  padding: 12px 16px;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.controls input[type="text"]:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.controls input[type="file"] {
+  padding: 8px;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  background: white;
+  cursor: pointer;
+}
+
+.controls button {
+  padding: 12px 20px;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow);
+}
+
+.controls button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* =========================
+   📊 PROGRESS BAR
+========================= */
+
+#progressBar {
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  background: var(--border-color);
+  overflow: hidden;
+}
+
+#progressBar::-webkit-progress-bar {
+  background: var(--border-color);
+}
+
+#progressBar::-webkit-progress-value {
+  background: linear-gradient(90deg, var(--success-color), var(--accent-color));
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+#progressText {
+  display: block;
+  text-align: center;
+  font-weight: 600;
+  color: var(--success-color);
+  margin-bottom: 20px;
+}
+
+/* =========================
+   📁 FILE LIST
+========================= */
+
+#list {
+  background: var(--secondary-color);
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 30px;
+  border: 1px solid var(--border-color);
+  min-height: 200px;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  margin-bottom: 8px;
+  background: white;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border-color);
+}
+
+.item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+  border-color: var(--primary-color);
+}
+
+.item:last-child {
+  margin-bottom: 0;
+}
+
+.item span:first-child {
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.folder {
+  color: var(--primary-color) !important;
+  font-weight: 600 !important;
+}
+
+.actions button {
+  padding: 6px 12px;
+  margin-left: 8px;
+  background: var(--error-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.actions button:hover {
+  background: #dc2626;
+  transform: scale(1.05);
+}
+
+/* =========================
+   🖼️ PREVIEW CONTAINER
+========================= */
+
+.preview-container {
+  text-align: center;
+  margin-top: 30px;
+  padding: 20px;
+  background: var(--secondary-color);
+  border-radius: 15px;
+  border: 1px solid var(--border-color);
+}
+
+#preview {
+  max-width: 100%;
+  max-height: 400px;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  display: none;
+}
+
+#videoPreview {
+  max-width: 100%;
+  max-height: 400px;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+}
+
+/* =========================
+   📱 RESPONSIVE DESIGN
+========================= */
+
+@media (max-width: 768px) {
+  #loginBox {
+    margin: 50px 20px;
+    padding: 30px 20px;
+  }
+
+  #app {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .controls {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  .item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .actions {
+    align-self: flex-end;
+  }
+}
+
+/* =========================
+   ✨ ANIMATIONS
+========================= */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#app {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.item {
+  animation: fadeIn 0.3s ease-out;
+  animation-fill-mode: both;
+}
+
+.item:nth-child(1) { animation-delay: 0.1s; }
+.item:nth-child(2) { animation-delay: 0.2s; }
+.item:nth-child(3) { animation-delay: 0.3s; }
+.item:nth-child(4) { animation-delay: 0.4s; }
+.item:nth-child(5) { animation-delay: 0.5s; }
+
+/* =========================
+   🎨 UTILITY CLASSES
+========================= */
+
+.hidden {
+  display: none !important;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+img {
+    max-width: 300px;
+    border-radius: 8px;
+}
