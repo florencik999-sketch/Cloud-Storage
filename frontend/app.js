@@ -1,7 +1,7 @@
 // 🔴 CONFIGURE YOUR BACKEND API URL HERE
 // For local development: http://localhost:3000
 // For production: your deployed backend URL
-const API = "http://localhost:3000"; // Change this to your backend URL
+const API = "https://unlined-name-diameter.ngrok-free.dev"; // Change this to your backend URL
 
 let currentPath = "";
 let TOKEN = "";
@@ -72,23 +72,6 @@ async function load() {
           currentPath === "" ? item.name : currentPath + "/" + item.name;
 
         load();
-      } else {
-        const fileUrl = `${API}/files/${currentPath}/${item.name}`;
-
-        // Image preview
-        if (item.name.match(/\.(jpg|jpeg|png|webp)$/i)) {
-          document.getElementById("preview").src = fileUrl;
-          document.getElementById("preview").classList.remove("hidden");
-          document.getElementById("videoPreview").classList.add("hidden");
-        }
-
-        // Video preview
-        else if (item.name.match(/\.(mp4|webm|mov)$/i)) {
-          const video = document.getElementById("videoPreview");
-          video.src = fileUrl;
-          video.classList.remove("hidden");
-          document.getElementById("preview").classList.add("hidden");
-        }
       }
     };
 
