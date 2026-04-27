@@ -1,58 +1,184 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>☁️ Cloud Storage</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <h2>☁️ Cloud Storage</h2>
+// 🔴 CONFIGURE YOUR BACKEND API URL HERE
+// For local development: http://localhost:3000
+// For production: your deployed backend URL
+const API = "https://unlined-name-diameter.ngrok-free.dev"; // Change this to your backend URL
 
-    <!-- 🔐 LOGIN -->
-    <div id="loginBox">
-      <h2>Welcome Back</h2>
-      <input type="text" id="username" placeholder="Enter your username" />
-      <input type="password" id="password" placeholder="Enter your password" />
-      <button onclick="login()">Sign In</button>
-    </div>
+let currentPath = "";
+let TOKEN = "";
 
-    <!-- 📁 MAIN APP -->
-    <div id="app" class="hidden">
-      <div class="controls">
-        <input type="text" id="folderName" placeholder="New folder name" />
-        <button onclick="createFolder()">📁 Create Folder</button>
+/* =========================
+   🔐 LOGIN
+========================= */
+async function login() {
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
 
-        <input type="file" id="fileInput" multiple accept="image/*,video/*" />
-        <button onclick="upload()">📤 Upload Files</button>
-      </div>
+  const res = await fetch(`${API}/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password }),
+  });
 
-      <!-- 📊 PROGRESS -->
-      <div class="mb-20">
-        <progress id="progressBar" value="0" max="100"></progress>
-        <span id="progressText">Ready to upload</span>
-      </div>
+  if (res.status === 200) {
+    const data = await res.json();
+    TOKEN = data.token;
 
-      <h3 id="path">📂 /</h3>
+    document.getElementById("loginBox").classList.add("hidden");
+    document.getElementById("app").classList.remove("hidden");
 
-      <div id="list">
-        <!-- Files and folders will appear here -->
-      </div>
+    load();
+  } else {
+    alert("Login failed");
+  }
+}
 
-      <div class="preview-container">
-        <h3>👁️ File Preview</h3>
-        <img id="preview" alt="Image preview" />
-        <video id="videoPreview" controls>
-          Your browser does not support the video tag.
-        </video>
-      </div>
-    </div>
+/* =========================
+   📁 LOAD FILES
+========================= */
+async function load() {
+  document.getElementById("path").innerText = "📂 /" + currentPath;
 
-    <script src="app.js"></script>
-  </body>
-</html>
+  const res = await fetch(`${API}/list?path=${currentPath}`, {
+    headers: { Authorization: "Bearer " + TOKEN },
+  });
 
-    <script src="app.js"></script>
-  </body>
-</html>
+  const data = await res.json();
+  const list = document.getElementById("list");
+  list.innerHTML = "";
+
+  // Back button
+  if (currentPath !== "") {
+    const back = document.createElement("div");
+    back.className = "item";
+    back.innerHTML = "⬅️ <strong>Back to parent folder</strong>";
+    back.onclick = () => {
+      currentPath = currentPath.split("/").slice(0, -1).join("/");
+      load();
+    };
+    list.appendChild(back);
+  }
+
+  data.forEach((item) => {
+    const div = document.createElement("div");
+    div.className = "item";
+
+    const name = document.createElement("span");
+    name.innerText =
+      item.type === "folder" ? "📁 " + item.name : "📄 " + item.name;
+
+    name.onclick = () => {
+      if (item.type === "folder") {
+        currentPath =
+          currentPath === "" ? item.name : currentPath + "/" + item.name;
+
+        load();
+      }
+    };
+
+    // Delete button
+    const delBtn = document.createElement("button");
+    delBtn.innerText = "🗑️ Delete";
+    delBtn.onclick = async (e) => {
+      e.stopPropagation();
+
+      const fullPath = currentPath ? currentPath + "/" + item.name : item.name;
+
+      await fetch(`${API}/delete`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: TOKEN,
+        },
+        body: JSON.stringify({ path: fullPath }),
+      });
+
+      load();
+    };
+
+    div.appendChild(name);
+    div.appendChild(delBtn);
+    list.appendChild(div);
+  });
+}
+
+/* =========================
+   📁 CREATE FOLDER
+========================= */
+async function createFolder() {
+  const name = document.getElementById("folderName").value;
+
+  if (!name) {
+    alert("Enter folder name");
+    return;
+  }
+
+  const path = currentPath ? currentPath + "/" + name : name;
+
+  await fetch(`${API}/create-folder`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: TOKEN,
+    },
+    body: JSON.stringify({ path }),
+  });
+
+  document.getElementById("folderName").value = "";
+  load();
+}
+
+/* =========================
+   📤 UPLOAD WITH PROGRESS
+========================= */
+function upload() {
+  const fileInput = document.getElementById("fileInput");
+  const progressBar = document.getElementById("progressBar");
+  const progressText = document.getElementById("progressText");
+
+  if (!fileInput.files.length) {
+    alert("Select files first");
+    return;
+  }
+
+  if (currentPath === "") {
+    alert("Enter a folder first");
+    return;
+  }
+
+  const formData = new FormData();
+
+  // 🔴 IMPORTANT: folder first
+  formData.append("folder", currentPath);
+
+  for (let i = 0; i < fileInput.files.length; i++) {
+    formData.append("images", fileInput.files[i]);
+  }
+
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", `${API}/upload`, true);
+
+  // 🔐 AUTH HEADER
+  xhr.setRequestHeader("Authorization", "Bearer " + TOKEN);
+
+  xhr.upload.onprogress = function (e) {
+    if (e.lengthComputable) {
+      const percent = Math.round((e.loaded / e.total) * 100);
+      progressBar.value = percent;
+      progressText.innerText = percent + "%";
+    }
+  };
+
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      progressBar.value = 100;
+      progressText.innerText = "Done";
+
+      fileInput.value = "";
+      load();
+    } else {
+      alert("Upload failed");
+    }
+  };
+
+  xhr.send(formData);
+}
